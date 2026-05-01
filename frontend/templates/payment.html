@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-primary-600 to-primary-400 p-6 text-white">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold">Payment</h1>
+                    <p class="text-white/80 text-sm">Choose your plan</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plan Selection -->
+        <div class="p-6">
+            <div class="mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Selected Plan</h2>
+                <div class="bg-primary-50 border border-primary-200 rounded-lg p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-semibold text-primary-900 capitalize">{{ plan_name }}</h3>
+                            <p class="text-primary-700 text-sm">
+                                {% if plan_name == 'basic' %}
+                                    Perfect for small businesses
+                                {% elif plan_name == 'pro' %}
+                                    Great for growing businesses
+                                {% else %}
+                                    Enterprise features
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold text-primary-900">
+                                {% if plan_name == 'basic' %}
+                                    ₹499
+                                {% elif plan_name == 'pro' %}
+                                    ₹999
+                                {% else %}
+                                    ₹1999
+                                {% endif %}
+                            </div>
+                            <div class="text-sm text-primary-700">/month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Button -->
+            <form id="payment-form">
+                <input type="hidden" name="plan" value="{{ plan_name }}">
+                <button type="submit" id="pay-button" class="w-full bg-gradient-to-r from-primary-600 to-primary-400 text-white py-3 px-6 rounded-lg font-semibold hover:from-primary-700 hover:to-primary-500 transition-all duration-200 flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                    </svg>
+                    <span>Pay with Razorpay</span>
+                </button>
+            </form>
+
+            <!-- Features -->
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3">What's included:</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    {% if plan_name == 'basic' %}
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>100 bookings per month</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Basic AI assistant</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Email support</span>
+                        </li>
+                    {% elif plan_name == 'pro' %}
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Unlimited bookings</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Advanced AI assistant</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>WhatsApp integration</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Priority support</span>
+                        </li>
+                    {% else %}
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Everything in Pro</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Custom AI training</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>API access</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Dedicated support</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('payment-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const payButton = document.getElementById('pay-button');
+    const originalText = payButton.innerHTML;
+    
+    // Show loading state
+    payButton.disabled = true;
+    payButton.innerHTML = '<svg class="animate-spin w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg><span>Processing...</span>';
+    
+    // Create payment order
+    fetch('/payment/create-subscription', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            plan: '{{ plan_name }}'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Payment response:', data);
+        
+        if (data.success) {
+            // Initialize Razorpay
+            const options = {
+                key: data.key_id,
+                amount: data.amount,
+                currency: data.currency,
+                name: 'Quikbok',
+                description: '{{ plan_name|title }} Plan',
+                order_id: data.order_id,
+                handler: function (response) {
+                    console.log('Payment successful:', response);
+                    
+                    // Submit payment success to server
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/payment/success';
+                    
+                    form.appendChild(createHiddenInput('razorpay_payment_id', response.razorpay_payment_id));
+                    form.appendChild(createHiddenInput('razorpay_order_id', response.razorpay_order_id));
+                    form.appendChild(createHiddenInput('razorpay_signature', response.razorpay_signature));
+                    form.appendChild(createHiddenInput('plan_name', '{{ plan_name }}'));
+                    
+                    document.body.appendChild(form);
+                    form.submit();
+                },
+                modal: {
+                    ondismiss: function() {
+                        payButton.disabled = false;
+                        payButton.innerHTML = originalText;
+                    }
+                },
+                prefill: {
+                    email: '{{ session.get("email", "") }}',
+                    contact: ''
+                }
+            };
+            
+            const rzp = new Razorpay(options);
+            rzp.open();
+        } else {
+            console.error('Payment failed:', data.message);
+            alert('Payment failed: ' + data.message);
+            payButton.disabled = false;
+            payButton.innerHTML = originalText;
+        }
+    })
+    .catch(error => {
+        console.error('Payment error:', error);
+        alert('Payment error: ' + error.message);
+        payButton.disabled = false;
+        payButton.innerHTML = originalText;
+    });
+});
+
+function createHiddenInput(name, value) {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    return input;
+}
+</script>
+{% endblock %}

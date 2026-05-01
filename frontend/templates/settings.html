@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="flex min-h-[90vh]">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white border-r border-gray-100 hidden md:block z-10 shadow-sm relative">
+    <nav class="flex flex-col h-full p-6 space-y-6">
+      <div class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Menu</div>
+      <a href="{{ url_for('dashboard.dashboard') }}" class="flex items-center space-x-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 px-4 py-2.5 rounded-lg font-medium transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="{{ url_for('dashboard.settings') }}" class="flex items-center space-x-3 text-primary-600 bg-primary-50 px-4 py-2.5 rounded-lg font-medium transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        <span>Settings</span>
+      </a>
+      <a href="{{ url_for('dashboard.billing') }}" class="flex items-center space-x-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 px-4 py-2.5 rounded-lg font-medium transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+        <span>Billing</span>
+      </a>
+      <a href="{{ url_for('auth.logout') }}" class="flex items-center space-x-3 text-red-600 hover:bg-red-50 px-4 py-2.5 rounded-lg font-medium transition-colors mt-auto">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        <span>Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8 bg-gray-50 max-w-full overflow-hidden">
+    <div class="mb-8 animate-fade-in-up">
+        <h1 class="text-3xl font-display font-bold text-gray-900">Settings</h1>
+        <p class="text-gray-500 mt-1">Manage your business profile, AI logic, and integration properties.</p>
+    </div>
+
+    <!-- Layout Container -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+      
+      <!-- Left Column: Form -->
+      <div class="lg:col-span-2 space-y-8">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="px-6 py-5 border-b border-gray-100 bg-white">
+            <h2 class="text-xl font-display font-bold text-gray-900">Business Profile</h2>
+          </div>
+          <div class="p-6">
+            <form action="{{ url_for('dashboard.settings') }}" method="POST" class="space-y-6">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <div>
+                <label for="business_name" class="block text-sm font-medium text-gray-700">Business Name</label>
+                <input type="text" name="business_name" id="business_name" value="{{ owner.business_name if owner else '' }}" class="mt-2 block w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors" required>
+              </div>
+
+              <div>
+                <label for="ai_instructions" class="block text-sm font-medium text-gray-700">AI Instructions (System Prompt)</label>
+                <p class="text-xs text-gray-500 mt-1 mb-2">Define exactly how the AI agent should introduce itself, sell your services, and respond to incoming WhatsApp queries.</p>
+                <textarea name="ai_instructions" id="ai_instructions" rows="6" class="block w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">{{ owner.ai_instructions if owner else 'You are a helpful booking agent. Always ask for dates and number of guests before confirming.' }}</textarea>
+              </div>
+
+              <div class="pt-2">
+                <button type="submit" class="w-full md:w-auto inline-flex justify-center items-center px-6 py-2.5 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: API & Integrations -->
+      <div class="space-y-8">
+        
+        <!-- Live Link -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="px-6 py-5 border-b border-gray-100 bg-white">
+            <h2 class="font-display font-bold text-gray-900 flex items-center">
+              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+              Shareable Link
+            </h2>
+          </div>
+          <div class="p-6">
+            <p class="text-sm text-gray-600 mb-4">Send this link to customers directly over Instagram, WhatsApp, or Facebook.</p>
+            <div class="relative">
+              <input type="text" readonly value="{{ booking_link }}" class="block w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-500 focus:outline-none">
+            </div>
+          </div>
+        </div>
+
+        <!-- Widget Script -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="px-6 py-5 border-b border-gray-100 bg-white">
+            <h2 class="font-display font-bold text-gray-900 flex items-center">
+              <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+              Embed Widget
+            </h2>
+          </div>
+          <div class="p-6">
+            <p class="text-sm text-gray-600 mb-4">Copy and paste this script tag right before the closing <code>&lt;/body&gt;</code> tag of your website.</p>
+            <div class="relative bg-gray-900 rounded-lg p-4 overflow-hidden">
+              <code class="text-xs text-green-400 break-all select-all">{{ embed_code }}</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- WhatsApp Integration -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="px-6 py-5 border-b border-gray-100 bg-white">
+            <h2 class="font-display font-bold text-gray-900 flex items-center">
+              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+              WhatsApp Integration
+            </h2>
+          </div>
+          <div class="p-6">
+            <form action="{{ url_for('dashboard.settings') }}" method="POST" class="space-y-6">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              
+              <!-- Provider Selection -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-3">Choose WhatsApp Provider</label>
+                <div class="space-y-3">
+                  <!-- Option A: Twilio -->
+                  <div class="relative border rounded-lg p-4 cursor-pointer transition-all hover:border-primary-300 {{ 'border-primary-500 bg-primary-50' if (owner.whatsapp_provider == 'twilio' or not owner.whatsapp_provider) else 'border-gray-200' }}">
+                    <label class="flex items-start cursor-pointer">
+                      <input type="radio" name="whatsapp_provider" value="twilio" {{ 'checked' if (owner.whatsapp_provider == 'twilio' or not owner.whatsapp_provider) else '' }} class="mt-1 mr-3 text-primary-600 focus:ring-primary-500">
+                      <div class="flex-1">
+                        <div class="flex items-center">
+                          <span class="font-medium text-gray-900">Option A — Twilio (Paid)</span>
+                          <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Recommended</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Reliable paid service with sandbox testing. Enter Twilio Account SID, Auth Token, and WhatsApp number.</p>
+                      </div>
+                    </label>
+                  </div>
+                  
+                  <!-- Option B: Meta WhatsApp Cloud -->
+                  <div class="relative border rounded-lg p-4 cursor-pointer transition-all hover:border-primary-300 {{ 'border-primary-500 bg-primary-50' if owner.whatsapp_provider == 'meta' else 'border-gray-200' }}">
+                    <label class="flex items-start cursor-pointer">
+                      <input type="radio" name="whatsapp_provider" value="meta" {{ 'checked' if owner.whatsapp_provider == 'meta' else '' }} class="mt-1 mr-3 text-primary-600 focus:ring-primary-500">
+                      <div class="flex-1">
+                        <div class="flex items-center">
+                          <span class="font-medium text-gray-900">Option B — WhatsApp Cloud API (Free)</span>
+                          <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Free</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Meta's free WhatsApp Cloud API. Enter Phone Number ID and Access Token from Meta Developer Portal.</p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- WhatsApp Number -->
+              <div>
+                <label for="whatsapp_number" class="block text-sm font-medium text-gray-700">Your WhatsApp Number</label>
+                <p class="text-xs text-gray-500 mt-1 mb-2">Enter your personal WhatsApp number with country code (e.g., +919876543210)</p>
+                <input type="tel" name="whatsapp_number" id="whatsapp_number" value="{{ owner.whatsapp_number if owner else '' }}" placeholder="+919876543210" class="mt-2 block w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
+              </div>
+              
+              <!-- Provider-specific settings -->
+              <div id="twilio-settings" class="space-y-4 {{ 'hidden' if owner.whatsapp_provider == 'meta' else '' }}">
+                <h4 class="text-sm font-medium text-gray-900">Twilio Credentials</h4>
+                <div>
+                  <label for="twilio_account_sid" class="block text-xs font-medium text-gray-700">Twilio Account SID</label>
+                  <input type="text" name="twilio_account_sid" id="twilio_account_sid" placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                </div>
+                <div>
+                  <label for="twilio_auth_token" class="block text-xs font-medium text-gray-700">Twilio Auth Token</label>
+                  <input type="password" name="twilio_auth_token" id="twilio_auth_token" placeholder="your_auth_token" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                </div>
+                <div>
+                  <label for="twilio_whatsapp_from" class="block text-xs font-medium text-gray-700">Twilio WhatsApp Number</label>
+                  <input type="text" name="twilio_whatsapp_from" id="twilio_whatsapp_from" placeholder="whatsapp:+14155238886" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                </div>
+              </div>
+              
+              <div id="meta-settings" class="space-y-4 {{ 'hidden' if (owner.whatsapp_provider != 'meta') else '' }}">
+                <h4 class="text-sm font-medium text-gray-900">Meta WhatsApp Cloud Credentials</h4>
+                <div>
+                  <label for="meta_phone_number_id" class="block text-xs font-medium text-gray-700">Phone Number ID</label>
+                  <input type="text" name="meta_phone_number_id" id="meta_phone_number_id" value="{{ owner.meta_phone_number_id if owner else '' }}" placeholder="123456789012345" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                </div>
+                <div>
+                  <label for="meta_access_token" class="block text-xs font-medium text-gray-700">Access Token</label>
+                  <input type="password" name="meta_access_token" id="meta_access_token" placeholder="EAADxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                </div>
+              </div>
+              
+              <div class="pt-2">
+                <button type="submit" class="w-full inline-flex justify-center items-center px-6 py-2.5 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+                  Save WhatsApp Settings
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- WhatsApp Setup Guide -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="px-6 py-5 border-b border-gray-100 bg-white">
+            <h2 class="font-display font-bold text-gray-900 flex items-center">
+              <svg class="w-5 h-5 text-purple-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              WhatsApp Setup Guide
+            </h2>
+          </div>
+          <div class="p-6 space-y-4">
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">1</div>
+              <div class="flex-1">
+                <h4 class="text-sm font-semibold text-gray-900">Create Twilio Account</h4>
+                <p class="text-xs text-gray-600 mt-1">Sign up for a free Twilio account at <a href="https://www.twilio.com" target="_blank" class="text-primary-600 hover:text-primary-500">twilio.com</a></p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">2</div>
+              <div class="flex-1">
+                <h4 class="text-sm font-semibold text-gray-900">Activate WhatsApp Sandbox</h4>
+                <p class="text-xs text-gray-600 mt-1">Go to Messaging → Try WhatsApp → Send a WhatsApp message to join the sandbox</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">3</div>
+              <div class="flex-1">
+                <h4 class="text-sm font-semibold text-gray-900">Enter Twilio Number</h4>
+                <p class="text-xs text-gray-600 mt-1">Copy your Twilio sandbox number and save it in the WhatsApp settings above</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold">4</div>
+              <div class="flex-1">
+                <h4 class="text-sm font-semibold text-gray-900">Share with Customers</h4>
+                <p class="text-xs text-gray-600 mt-1">Share your Twilio sandbox number with customers so they can message you</p>
+              </div>
+            </div>
+            <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+              <p class="text-xs text-blue-800"><strong>Note:</strong> Use Twilio sandbox for testing. No real phone number required!</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle provider-specific settings
+    const providerRadios = document.querySelectorAll('input[name="whatsapp_provider"]');
+    const twilioSettings = document.getElementById('twilio-settings');
+    const metaSettings = document.getElementById('meta-settings');
+    
+    function toggleProviderSettings() {
+        const selectedProvider = document.querySelector('input[name="whatsapp_provider"]:checked').value;
+        
+        if (selectedProvider === 'meta') {
+            twilioSettings.classList.add('hidden');
+            metaSettings.classList.remove('hidden');
+        } else {
+            twilioSettings.classList.remove('hidden');
+            metaSettings.classList.add('hidden');
+        }
+    }
+    
+    // Add event listeners to radio buttons
+    providerRadios.forEach(radio => {
+        radio.addEventListener('change', toggleProviderSettings);
+    });
+    
+    // Initialize on page load
+    toggleProviderSettings();
+});
+</script>
+
+{% endblock %}

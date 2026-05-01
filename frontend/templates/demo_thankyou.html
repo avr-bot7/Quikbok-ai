@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You | Quikbok</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <style>
+        * { font-family: 'Inter', system-ui, sans-serif; }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-bounce-slow {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+            40%, 43% { transform: translateY(-30px); }
+            70% { transform: translateY(-15px); }
+            90% { transform: translateY(-4px); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-primary-50 via-white to-purple-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="/" class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary-600 to-primary-400 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary-500/30">
+                        Q
+                    </div>
+                    <span class="text-2xl font-display font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 tracking-tight">Quikbok</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="/#features" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">Features</a>
+                    <a href="/#pricing" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">Pricing</a>
+                    <a href="/privacy" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">Privacy</a>
+                    <a href="/terms" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">Terms</a>
+                    <a href="/login" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium">Login</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center">
+            <!-- Success Icon -->
+            <div class="mb-8 animate-fade-in-up">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto animate-bounce-slow">
+                    <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <div class="animate-fade-in-up" style="animation-delay: 0.2s;">
+                <h1 class="text-4xl font-display font-bold text-gray-900 mb-4">
+                    Thank You!
+                </h1>
+                <p class="text-xl text-gray-600 mb-2">
+                    Your demo request has been submitted successfully
+                </p>
+                <p class="text-sm text-gray-500 mb-8">
+                    We'll contact you soon to schedule your personalized demo
+                </p>
+            </div>
+
+            <!-- What's Next -->
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden animate-fade-in-up" style="animation-delay: 0.4s;">
+                <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4">
+                    <h2 class="text-xl font-semibold text-white">What's Next?</h2>
+                </div>
+                
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-primary-600 font-semibold text-sm">1</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Contact Confirmation</h3>
+                                <p class="text-sm text-gray-600">We'll WhatsApp you within 24 hours to confirm your preferred time</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-primary-600 font-semibold text-sm">2</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Personalized Demo</h3>
+                                <p class="text-sm text-gray-600">See how Quikbok works for your specific business type</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-primary-600 font-semibold text-sm">3</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Quick Setup</h3>
+                                <p class="text-sm text-gray-600">Get started with your account and start accepting bookings</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-12 space-y-4 animate-fade-in-up" style="animation-delay: 0.6s;">
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/" 
+                       class="bg-primary-600 text-white px-8 py-3 rounded-lg hover:bg-primary-700 transition-colors font-medium shadow-lg shadow-primary-500/30">
+                        Back to Home
+                    </a>
+                    <a href="/login" 
+                       class="bg-white text-primary-600 px-8 py-3 rounded-lg border border-primary-600 hover:bg-primary-50 transition-colors font-medium">
+                        Try Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="mt-12 text-center text-gray-600 animate-fade-in-up" style="animation-delay: 0.8s;">
+                <p class="mb-2">Have questions? Contact us directly:</p>
+                <div class="flex justify-center space-x-6">
+                    <a href="mailto:support@quikbok.com" class="text-primary-600 hover:text-primary-700 transition-colors">
+                        support@quikbok.com
+                    </a>
+                    <span class="text-gray-400">|</span>
+                    <a href="tel:+919876543210" class="text-primary-600 hover:text-primary-700 transition-colors">
+                        +91 98765 43210
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center text-sm text-gray-500">
+                <p>&copy; 2026 Quikbok. All rights reserved.</p>
+                <div class="mt-2 space-x-4">
+                    <a href="/privacy" class="hover:text-primary-600 transition-colors">Privacy Policy</a>
+                    <a href="/terms" class="hover:text-primary-600 transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

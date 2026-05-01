@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="min-h-[80vh] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 class="mt-6 text-center text-3xl font-display font-bold text-gray-900">Create your account</h2>
+        <p class="mt-2 text-center text-sm text-gray-600">
+            Or <a href="{{ url_for('auth.login') }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors">sign in to your existing account</a>
+        </p>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md animate-fade-in-up">
+        <div class="bg-white py-8 px-4 shadow-xl border border-gray-100 sm:rounded-2xl sm:px-10 relative overflow-hidden">
+            <!-- decorative blur -->
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-primary-100/50 rounded-full blur-3xl"></div>
+            
+            <form class="space-y-6 relative z-10" action="{{ url_for('auth.signup') }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <div class="mt-1">
+                        <input id="name" name="name" type="text" required class="appearance-none block w-full px-3 py-2.5 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                    <div class="mt-1">
+                        <input id="email" name="email" type="email" autocomplete="email" required class="appearance-none block w-full px-3 py-2.5 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <div class="mt-1 relative">
+                        <input id="password" name="password" type="password" required class="appearance-none block w-full px-3 py-2.5 pr-10 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
+                        <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gray-600">
+                            <span id="eye-icon">👁️</span>
+                        </button>
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500">Use 6+ characters, 1 uppercase letter, and 1 number</p>
+                    <div class="mt-2 flex gap-2">
+                        <button type="button" id="generate-password" class="text-xs px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors">
+                            🔐 Generate Password
+                        </button>
+                        <div id="password-strength" class="text-xs text-gray-500"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="business_name" class="block text-sm font-medium text-gray-700">Business Name</label>
+                    <div class="mt-1">
+                        <input id="business_name" name="business_name" type="text" required class="appearance-none block w-full px-3 py-2.5 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="business_type" class="block text-sm font-medium text-gray-700">Business Type</label>
+                    <div class="mt-1">
+                        <select id="business_type" name="business_type" required class="appearance-none block w-full px-3 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm bg-white transition-colors">
+                            <option value="" disabled selected>Select a business type</option>
+                            <option value="hotel">Hotel / Resort</option>
+                            <option value="restaurant">Restaurant / Cafe</option>
+                            <option value="tour_operator">Tour Operator</option>
+                            <option value="tour_guide">Tour Guide</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+                        Sign up
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password');
+    const toggleBtn = document.getElementById('toggle-password');
+    const eyeIcon = document.getElementById('eye-icon');
+    const generateBtn = document.getElementById('generate-password');
+    const strengthDiv = document.getElementById('password-strength');
+
+    // Password toggle
+    toggleBtn.addEventListener('click', function() {
+        const type = passwordInput.type === 'password' ? 'text' : 'password';
+        passwordInput.type = type;
+        eyeIcon.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
+    });
+
+    // Password generator
+    generateBtn.addEventListener('click', function() {
+        const passwords = [
+            'Hotel@123', 'StayEasy7', 'Booking456', 'Resort2024', 'Travel789',
+            'GuestHouse1', 'Lodge2023', 'InnSecure5', 'MotelPass8', 'Hostel246'
+        ];
+        const randomPassword = passwords[Math.floor(Math.random() * passwords.length)];
+        passwordInput.value = randomPassword;
+        checkPasswordStrength();
+    });
+
+    // Password strength checker
+    function checkPasswordStrength() {
+        const password = passwordInput.value;
+        let strength = 0;
+        let message = '';
+
+        if (password.length >= 6) strength++;
+        if (password.length >= 8) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+        switch(strength) {
+            case 0:
+            case 1:
+                message = '<span class="text-red-500">Weak</span>';
+                break;
+            case 2:
+            case 3:
+                message = '<span class="text-yellow-500">Medium</span>';
+                break;
+            case 4:
+            case 5:
+                message = '<span class="text-green-500">Strong</span>';
+                break;
+        }
+
+        strengthDiv.innerHTML = message;
+    }
+
+    passwordInput.addEventListener('input', checkPasswordStrength);
+});
+</script>
+
+{% endblock %}

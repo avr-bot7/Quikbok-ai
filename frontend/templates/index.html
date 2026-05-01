@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="relative overflow-hidden bg-white pb-20 pt-32 lg:pt-48">
+  <div class="absolute inset-x-0 top-0 h-[800px] bg-gradient-to-b from-primary-50/50 via-white to-white"></div>
+  <div class="absolute right-0 top-0 -mr-48 mt-12 hidden lg:block opacity-30 animate-pulse-glow">
+    <div class="h-96 w-96 rounded-full bg-primary-100/80 blur-3xl"></div>
+  </div>
+  <div class="absolute left-0 top-32 -ml-40 hidden lg:block opacity-30 animate-pulse-glow" style="animation-delay: 1s;">
+    <div class="h-80 w-80 rounded-full bg-blue-100/80 blur-3xl"></div>
+  </div>
+  
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center animate-fade-in-up">
+    <div class="mx-auto max-w-3xl">
+      <div class="inline-flex items-center space-x-2 rounded-full bg-primary-50 px-3 py-1 text-sm font-semibold text-primary-700 ring-1 ring-inset ring-primary-600/20 mb-8 border border-primary-100 shadow-sm">
+        <span class="flex h-2 w-2 rounded-full bg-primary-600"></span>
+        <span>Now matching operators across all over India</span>
+      </div>
+      <h1 class="text-5xl font-display font-extrabold tracking-tight text-gray-900 sm:text-6xl lg:text-7xl mb-6 leading-tight">
+        Your AI Booking Agent, <br class="hidden lg:block">
+        <span class="bg-gradient-to-r from-primary-600 to-indigo-500 bg-clip-text text-transparent">Working 24/7</span>
+      </h1>
+      <p class="mt-6 text-lg leading-8 text-gray-600 sm:text-xl font-medium">
+        Never miss an inquiry. Instant multi-lingual replies for hotels, restaurants, and tour operators in India. Automate bookings, capture leads, and delight your guests while you sleep.
+      </p>
+      
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-4">
+        <a href="/signup" class="rounded-full bg-gray-900 px-8 py-3.5 text-sm font-semibold text-white shadow-xl hover:bg-gray-800 hover:-translate-y-1 transition-all duration-200">
+          Get Started Free
+        </a>
+        <a href="/demo" class="rounded-full bg-primary-600 px-8 py-3.5 text-sm font-semibold text-white shadow-xl hover:bg-primary-700 hover:-translate-y-1 transition-all duration-200">
+          Book a Demo
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Demo Section -->
+<section id="demo" class="relative py-16 bg-white overflow-hidden text-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
+    <div class="w-full max-w-md relative animate-float">
+      <!-- Glow effect -->
+      <div class="absolute -inset-1 rounded-[2.5rem] bg-gradient-to-r from-primary-500 to-indigo-500 opacity-25 blur-lg mix-blend-multiply"></div>
+      
+      <!-- Phone Frame -->
+      <div class="relative rounded-[2rem] bg-gray-50 border-[6px] border-gray-900 shadow-2xl overflow-hidden flex flex-col h-[600px]">
+        <!-- Top bar -->
+        <div class="bg-gray-900 text-white px-6 py-4 flex items-center justify-between z-10">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center font-bold text-lg">AI</div>
+            <div>
+              <div class="font-bold font-display">Booking Assistant</div>
+              <div class="text-xs text-primary-200 flex items-center gap-1">
+                <div class="w-2 h-2 rounded-full bg-green-400"></div> Online
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Chat Area -->
+        <div class="flex-1 p-4 space-y-4 overflow-y-auto bg-slate-50 relative">
+          <!-- Background pattern -->
+          <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 20px 20px;"></div>
+          
+          <div class="relative flex justify-center pb-2">
+            <span class="text-[10px] text-gray-400 font-medium px-2 py-1 bg-white rounded-full shadow-sm">Today 10:41 AM</span>
+          </div>
+
+          <div class="relative flex justify-end animate-fade-in-up" style="animation-delay: 0.1s; animation-fill-mode: both;">
+            <div class="bg-primary-600 text-white rounded-2xl rounded-tr-sm px-4 py-2 max-w-[85%] shadow-sm">
+              <p>Hi! I'd like to book a table for 2 on Friday.</p>
+            </div>
+          </div>
+          
+          <div class="relative flex justify-start animate-fade-in-up" style="animation-delay: 0.8s; animation-fill-mode: both;">
+            <div class="bg-white border border-gray-100 text-gray-800 rounded-2xl rounded-tl-sm px-4 py-2 max-w-[85%] shadow-sm">
+              <p>Sure! I can help with that. कृपया अपना नाम और फ़ोन नंबर बताएं। (Could you please share your name and phone number?)</p>
+            </div>
+          </div>
+          
+          <div class="relative flex justify-end animate-fade-in-up" style="animation-delay: 2.2s; animation-fill-mode: both;">
+            <div class="bg-primary-600 text-white rounded-2xl rounded-tr-sm px-4 py-2 max-w-[85%] shadow-sm">
+              <p>Rahul, 9876543210</p>
+            </div>
+          </div>
+          
+          <div class="relative flex justify-start animate-fade-in-up" style="animation-delay: 3.5s; animation-fill-mode: both;">
+            <div class="bg-white border border-gray-100 text-gray-800 rounded-2xl rounded-tl-sm px-4 py-3 max-w-[85%] shadow-sm">
+              <p class="mb-2">Thank you Rahul! Your booking is confirmed. 😊</p>
+              <div class="bg-gray-50 rounded-lg p-3 text-xs border border-gray-100">
+                <div class="font-semibold mb-1 text-gray-900">📅 Reservation Confirmed</div>
+                <div class="text-gray-600">Guests: 2<br>Day: Friday<br>Name: Rahul</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Input area -->
+        <div class="bg-white px-4 py-3 border-t border-gray-100 z-10">
+          <div class="flex items-center bg-gray-100 rounded-full px-4 py-2">
+            <input type="text" placeholder="Type a message..." class="bg-transparent border-none outline-none flex-1 text-gray-700 text-sm" disabled>
+            <div class="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white cursor-not-allowed opacity-50">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"></path></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-24 bg-gray-50 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <h2 class="text-3xl font-display font-bold text-gray-900 sm:text-4xl">Everything you need to scale</h2>
+      <p class="mt-4 text-lg text-gray-600">Connect with your guests wherever they are. Quikbok provides multiple touchpoints to ensure you never miss a lead.</p>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Card 1 -->
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+        <div class="w-14 h-14 bg-primary-50 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary-100 transition-transform">
+          <span class="text-3xl">💬</span>
+        </div>
+        <h3 class="text-xl font-bold font-display text-gray-900 mb-3">Web Widget</h3>
+        <p class="text-gray-600 leading-relaxed">Embed our beautiful chat widget directly on your existing website with just one line of code. Convert visitors instantly.</p>
+      </div>
+      
+      <!-- Card 2 -->
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+        <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-100 transition-transform">
+          <span class="text-3xl">🔗</span>
+        </div>
+        <h3 class="text-xl font-bold font-display text-gray-900 mb-3">Booking Link</h3>
+        <p class="text-gray-600 leading-relaxed">No website? No problem. Get a dedicated, branded booking page to share on Instagram, Facebook, and Google My Business.</p>
+      </div>
+      
+      <!-- Card 3 -->
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+        <div class="w-14 h-14 bg-green-50 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-green-100 transition-transform">
+          <span class="text-3xl">📱</span>
+        </div>
+        <h3 class="text-xl font-bold font-display text-gray-900 mb-3">WhatsApp Bot</h3>
+        <p class="text-gray-600 leading-relaxed">Meet your customers where they already are. Automated WhatsApp replies in English and Hindi working around the clock.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <h2 class="text-3xl font-display font-bold text-gray-900 sm:text-4xl">Simple, transparent pricing</h2>
+      <p class="mt-4 text-lg text-gray-600">Choose the plan that fits your business needs. Upgrade or downgrade at any time.</p>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-center">
+      <!-- Basic -->
+      <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-200">
+        <h3 class="font-bold text-xl text-gray-900 mb-2">Basic</h3>
+        <div class="flex items-baseline gap-1 mb-6">
+          <span class="text-4xl font-display font-bold text-gray-900">₹499</span>
+          <span class="text-gray-500 font-medium">/mo</span>
+        </div>
+        <ul class="space-y-4 mb-8 text-gray-600">
+          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-primary-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 50 AI Bookings/mo</li>
+          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-primary-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Web Widget</li>
+          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-primary-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Direct Booking Link</li>
+          <li class="flex items-start gap-3 opacity-50"><svg class="w-5 h-5 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> WhatsApp Bot</li>
+        </ul>
+        <button onclick="startPayment('basic')" class="block w-full py-3 px-4 rounded-xl font-medium text-center text-primary-700 bg-primary-50 hover:bg-primary-100 transition-colors">Get Started Basic</button>
+      </div>
+      
+      <!-- Pro -->
+      <div class="bg-gray-900 rounded-3xl p-8 shadow-2xl border border-gray-800 relative transform md:-translate-y-4">
+        <div class="absolute top-0 right-6 transform -translate-y-1/2">
+          <span class="bg-gradient-to-r from-primary-500 to-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Most Popular</span>
+        </div>
+        <h3 class="font-bold text-xl text-white mb-2">Pro</h3>
+        <div class="flex items-baseline gap-1 mb-6">
+          <span class="text-4xl font-display font-bold text-white">₹999</span>
+          <span class="text-gray-400 font-medium">/mo</span>
+        </div>
+        <ul class="space-y-4 mb-8 text-gray-300">
+          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-primary-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 200 AI Bookings/mo</li>
+          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-primary-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Everything in Basic</li>
+          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-primary-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> WhatsApp Bot Integration</li>
+          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-primary-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Custom Branding</li>
+        </ul>
+        <button onclick="startPayment('pro')" class="block w-full py-3 px-4 rounded-xl font-medium text-center text-white bg-primary-600 hover:bg-primary-500 shadow-lg shadow-primary-500/30 transition-all">Get Started Pro</button>
+      </div>
+      
+      <!-- Premium -->
+      <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-200">
+        <h3 class="font-bold text-xl text-gray-900 mb-2">Premium</h3>
+        <div class="flex items-baseline gap-1 mb-6">
+          <span class="text-4xl font-display font-bold text-gray-900">₹1999</span>
+          <span class="text-gray-500 font-medium">/mo</span>
+        </div>
+        <ul class="space-y-4 mb-8 text-gray-600">
+          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-primary-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Unlimited AI Bookings</li>
+          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-primary-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Everything in Pro</li>
+          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-primary-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Advanced Analytics</li>
+          <li class="flex items-start gap-3"><svg class="w-5 h-5 text-primary-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Dedicated Account Manager</li>
+        </ul>
+        <button onclick="startPayment('premium')" class="block w-full py-3 px-4 rounded-xl font-medium text-center text-primary-700 bg-primary-50 hover:bg-primary-100 transition-colors">Get Started Premium</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-24 bg-gray-900 relative overflow-hidden">
+  <div class="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-primary-900/50 to-transparent"></div>
+  <div class="absolute right-0 bottom-0 opacity-20">
+    <div class="h-96 w-96 rounded-full bg-primary-500 blur-3xl"></div>
+  </div>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <h2 class="text-3xl font-display font-bold text-white sm:text-5xl mb-6">Ready to put your bookings on autopilot?</h2>
+    <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">Join hundreds of businesses in India using Quikbok to capture leads and confirm reservations instantly.</p>
+    <a href="/signup" class="inline-block rounded-full bg-white px-8 py-4 text-lg font-bold text-gray-900 shadow-xl hover:bg-gray-100 hover:scale-105 transition-all duration-200">
+      Start Your 14-Day Free Trial
+    </a>
+  </div>
+</section>
+
+<!-- Live Chat Widget -->
+<script src="/static/js/chat.js" data-owner-id="{{ session.get('owner_id') or 'demo' }}"></script>
+
+<!-- Razorpay Payment Script -->
+<script>
+function startPayment(planName) {
+  // Show loading state
+  const button = event.target;
+  const originalText = button.textContent;
+  button.disabled = true;
+  button.textContent = 'Processing...';
+  
+  // Create payment order
+  fetch('/payment/create-subscription', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      plan: planName
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // Initialize Razorpay
+      const options = {
+        key: data.key_id,
+        amount: data.amount,
+        currency: data.currency,
+        name: 'Quikbok',
+        description: `${planName.toUpperCase()} Plan Subscription`,
+        order_id: data.order_id,
+        handler: function (response) {
+          // On successful payment
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '/payment/success';
+          
+          form.innerHTML = `
+            <input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}">
+            <input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}">
+            <input type="hidden" name="razorpay_signature" value="${response.razorpay_signature}">
+          `;
+          
+          document.body.appendChild(form);
+          form.submit();
+        },
+        modal: {
+          ondismiss: function() {
+            // Restore button state
+            button.disabled = false;
+            button.textContent = originalText;
+          }
+        },
+        theme: {
+          color: '#7c3aed'
+        }
+      };
+      
+      const rzp = new Razorpay(options);
+      rzp.open();
+    } else {
+      alert('Failed to create payment order: ' + data.message);
+      button.disabled = false;
+      button.textContent = originalText;
+    }
+  })
+  .catch(error => {
+    console.error('Payment error:', error);
+    alert('Payment failed. Please try again.');
+    button.disabled = false;
+    button.textContent = originalText;
+  });
+}
+</script>
+
+{% endblock %}

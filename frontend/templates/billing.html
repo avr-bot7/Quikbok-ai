@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="flex min-h-[90vh]">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white border-r border-gray-100 hidden md:block z-10 shadow-sm relative">
+    <nav class="flex flex-col h-full p-6 space-y-6">
+      <div class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">Menu</div>
+      <a href="{{ url_for('dashboard.dashboard') }}" class="flex items-center space-x-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 px-4 py-2.5 rounded-lg font-medium transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="{{ url_for('dashboard.settings') }}" class="flex items-center space-x-3 text-gray-600 hover:text-primary-600 hover:bg-gray-50 px-4 py-2.5 rounded-lg font-medium transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        <span>Settings</span>
+      </a>
+      <a href="{{ url_for('dashboard.billing') }}" class="flex items-center space-x-3 text-primary-600 bg-primary-50 px-4 py-2.5 rounded-lg font-medium transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+        <span>Billing</span>
+      </a>
+      <a href="{{ url_for('auth.logout') }}" class="flex items-center space-x-3 text-red-600 hover:bg-red-50 px-4 py-2.5 rounded-lg font-medium transition-colors mt-auto">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        <span>Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8 bg-gray-50 max-w-full overflow-hidden">
+    <div class="mb-8 flex justify-between items-center animate-fade-in-up">
+        <div>
+            <h1 class="text-3xl font-display font-bold text-gray-900">Billing & Plans</h1>
+            <p class="text-gray-500 mt-1">Manage your subscription and payment methods.</p>
+        </div>
+    </div>
+
+    <!-- Current Plan Status -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+      <h2 class="text-xl font-display font-bold text-gray-900 mb-4">Current Plan</h2>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <div class="w-16 h-16 bg-primary-50 rounded-full flex items-center justify-center">
+            <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900">{{ plan|upper }} Plan</h3>
+            <div class="flex items-center space-x-2 mt-1">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wide
+                {% if status == 'active' %}bg-green-100 text-green-800 border border-green-200
+                {% elif status == 'cancelled' %}bg-red-100 text-red-800 border border-red-200
+                {% else %}bg-yellow-100 text-yellow-800 border border-yellow-200
+                {% endif %}">
+                {{ status|capitalize }}
+              </span>
+              <span class="text-sm text-gray-500">Monthly billing</span>
+            </div>
+          </div>
+        </div>
+        <div class="text-right">
+          <div class="text-2xl font-bold text-gray-900">
+            {% if plan == 'basic' %}₹499
+            {% elif plan == 'pro' %}₹999
+            {% elif plan == 'premium' %}₹1,999
+            {% else %}₹499
+            {% endif %}
+            <span class="text-sm font-normal text-gray-500">/month</span>
+          </div>
+          <p class="text-sm text-gray-500 mt-1">Next billing date: {{ next_billing_date or 'N/A' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Available Plans -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 animate-fade-in-up" style="animation-delay: 0.2s;">
+      <h2 class="text-xl font-display font-bold text-gray-900 mb-6">Available Plans</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Basic Plan -->
+        <div class="border border-gray-200 rounded-xl p-6 {{ 'ring-2 ring-primary-500' if plan == 'basic' else '' }}">
+          <h3 class="text-lg font-semibold text-gray-900">Basic</h3>
+          <div class="mt-2">
+            <span class="text-3xl font-bold text-gray-900">₹499</span>
+            <span class="text-gray-500">/month</span>
+          </div>
+          <ul class="mt-4 space-y-2 text-sm text-gray-600">
+            <li class="flex items-center">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              Up to 100 bookings/month
+            </li>
+            <li class="flex items-center">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              Basic AI assistant
+            </li>
+            <li class="flex items-center">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              Email support
+            </li>
+          </ul>
+          <button class="mt-6 w-full bg-gray-100 text-gray-400 px-4 py-2 rounded-lg text-sm font-medium" {% if plan == 'basic' %}disabled{% else %}onclick="upgradePlan('basic')"{% endif %}>
+            {% if plan == 'basic' %}Current Plan{% else %}Upgrade{% endif %}
+          </button>
+        </div>
+
+        <!-- Pro Plan -->
+        <div class="border border-gray-200 rounded-xl p-6 {{ 'ring-2 ring-primary-500' if plan == 'pro' else '' }}">
+          <h3 class="text-lg font-semibold text-gray-900">Pro</h3>
+          <div class="mt-2">
+            <span class="text-3xl font-bold text-gray-900">₹999</span>
+            <span class="text-gray-500">/month</span>
+          </div>
+          <ul class="mt-4 space-y-2 text-sm text-gray-600">
+            <li class="flex items-center">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              Up to 500 bookings/month
+            </li>
+            <li class="flex items-center">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              Advanced AI assistant
+            </li>
+            <li class="flex items-center">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              Priority support
+            </li>
+            <li class="flex items-center">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              WhatsApp integration
+            </li>
+          </ul>
+          <button class="mt-6 w-full bg-gray-100 text-gray-400 px-4 py-2 rounded-lg text-sm font-medium" {% if plan == 'pro' %}disabled{% else %}onclick="upgradePlan('pro')"{% endif %}>
+            {% if plan == 'pro' %}Current Plan{% else %}Upgrade{% endif %}
+          </button>
+        </div>
+
+        <!-- Premium Plan -->
+        <div class="border border-gray-200 rounded-xl p-6 {{ 'ring-2 ring-primary-500' if plan == 'premium' else '' }}">
+          <h3 class="text-lg font-semibold text-gray-900">Premium</h3>
+          <div class="mt-2">
+            <span class="text-3xl font-bold text-gray-900">₹1,999</span>
+            <span class="text-gray-500">/month</span>
+          </div>
+          <ul class="mt-4 space-y-2 text-sm text-gray-600">
+            <li class="flex items-center">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              Unlimited bookings
+            </li>
+            <li class="flex items-center">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              Custom AI training
+            </li>
+            <li class="flex items-center">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              24/7 phone support
+            </li>
+            <li class="flex items-center">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+              Advanced analytics
+            </li>
+          </ul>
+          <button class="mt-6 w-full bg-gray-100 text-gray-400 px-4 py-2 rounded-lg text-sm font-medium" {% if plan == 'premium' %}disabled{% else %}onclick="upgradePlan('premium')"{% endif %}>
+            {% if plan == 'premium' %}Current Plan{% else %}Upgrade{% endif %}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment History -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mt-8 animate-fade-in-up" style="animation-delay: 0.3s;">
+      <h2 class="text-xl font-display font-bold text-gray-900 mb-4">Payment History</h2>
+      <div class="text-center py-8 text-gray-500">
+        <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <p>No payment history available</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+function upgradePlan(planName) {
+  if (confirm(`Upgrade to ${planName.toUpperCase()} plan? You will be redirected to payment.`)) {
+    window.location.href = `/payment/create-subscription?plan=${planName}`;
+  }
+}
+</script>
+
+{% endblock %}

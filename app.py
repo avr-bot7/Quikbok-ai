@@ -1,0 +1,124 @@
+from flask import Flask, render_template, session, request
+from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_wtf.csrf import CSRFProtect
+import sys
+import os
+from config.config import Config, validate_environment
+from backend.routes.auth import auth_bp
+from backend.routes.chat import chat_bp
+from backend.routes.dashboard import dashboard_bp
+from backend.routes.webhook import webhook_bp
+from backend.routes.payment import payment_bp
+from backend.routes.whatsapp_cloud import whatsapp_cloud_bp
+from backend.models.database import get_first_owner
+
+# Validate environment variables on startup
+validate_environment()
+
+# Avoid Windows console UnicodeEncodeError when printing Gemini output (Hindi/emoji).
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="backslashreplace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="backslashreplace")
+except Exception:
+    pass
+
+app = Flask(__name__, 
+           template_folder='frontend/templates',
+           static_folder='frontend/static')
+app.config.from_object(Config)
+CORS(app, resources={r"/chat*": {"origins": "*"}})
+app.secret_key = Config.SECRET_KEY
+
+# Initialize CSRF protection
+csrf = CSRFProtect(app)
+
+# Exempt chat blueprint from CSRF protection (API endpoint)
+from flask_wtf.csrf import CSRFError
+from backend.routes.chat import chat_bp
+csrf.exempt(chat_bp)
+
+# Exempt webhook blueprint from CSRF protection (API endpoint)
+from backend.routes.webhook import webhook_bp
+csrf.exempt(webhook_bp)
+
+# Exempt payment blueprint from CSRF protection (API endpoint; called via fetch/JSON)
+from backend.routes.payment import payment_bp
+csrf.exempt(payment_bp)
+
+# Configure session timeout (24 hours)
+from datetime import timedelta
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
+
+# Initialize rate limiter
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
+
+app.register_blueprint(auth_bp)
+app.register_blueprint(chat_bp)
+app.register_blueprint(dashboard_bp)
+app.register_blueprint(webhook_bp)
+app.register_blueprint(payment_bp)
+app.register_blueprint(whatsapp_cloud_bp)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/demo', methods=['GET', 'POST'])
+def demo():
+    print(f"\n=== DEMO ROUTE ACCESS ===")
+    print(f"Method: {request.method}")
+    
+    if request.method == 'POST':
+        try:
+            # Get form data
+            name = request.form.get('name')
+            business_name = request.form.get('business_name')
+            whatsapp_number = request.form.get('whatsapp_number')
+            business_type = request.form.get('business_type')
+            preferred_time = request.form.get('preferred_time')
+            
+            print(f"📝 Demo Request Data:")
+            print(f"  Name: {name}")
+            print(f"  Business: {business_name}")
+            print(f"  WhatsApp: {whatsapp_number}")
+            print(f"  Type: {business_type}")
+            print(f"  Time: {preferred_time}")
+            
+            # Save to Supabase
+            from backend.models.database import create_demo_request
+            create_demo_request(name, business_name, whatsapp_number, business_type, preferred_time)
+            
+            print("✅ Demo request saved successfully")
+            return render_template('demo_thankyou.html')
+        except Exception as e:
+            print(f"❌ Error saving demo request: {type(e).__name__}: {str(e)}")
+            import traceback
+            print(f"Full traceback: {traceback.format_exc()}")
+            return render_template('demo.html', error="Failed to submit request. Please try again.")
+    
+    return render_template('demo.html')
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')
+
+@app.after_request
+def set_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Content-Security-Policy'] = "default-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdn.tailwindcss.com; connect-src 'self';"
+    return response
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=False)

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Demo | Quikbok</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <style>
+        * { font-family: 'Inter', system-ui, sans-serif; }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-primary-50 via-white to-purple-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="/" class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary-600 to-primary-400 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary-500/30">
+                        Q
+                    </div>
+                    <span class="text-2xl font-display font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 tracking-tight">Quikbok</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="/#features" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">Features</a>
+                    <a href="/#pricing" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">Pricing</a>
+                    <a href="/privacy" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">Privacy</a>
+                    <a href="/terms" class="text-gray-600 hover:text-primary-600 font-medium transition-colors">Terms</a>
+                    <a href="/login" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium">Login</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center mb-12 animate-fade-in-up">
+            <h1 class="text-4xl font-display font-bold text-gray-900 mb-4">
+                Book a Demo
+            </h1>
+            <p class="text-xl text-gray-600 mb-2">
+                See Quikbok in action with a personalized demo
+            </p>
+            <p class="text-sm text-gray-500">
+                Fill out the form below and we'll contact you to schedule a demo
+            </p>
+        </div>
+
+        <!-- Demo Form -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden animate-fade-in-up" style="animation-delay: 0.2s;">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4">
+                <h2 class="text-xl font-semibold text-white">Demo Request Form</h2>
+                <p class="text-sm text-white/80 mt-1">Tell us about your business</p>
+            </div>
+            
+            <div class="p-6">
+                {% if error %}
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <p class="text-sm text-red-800">{{ error }}</p>
+                </div>
+                {% endif %}
+                
+                <form action="{{ url_for('demo') }}" method="POST" class="space-y-6">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Your Name *</label>
+                            <input type="text" name="name" id="name" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                                   placeholder="John Doe">
+                        </div>
+                        
+                        <div>
+                            <label for="business_name" class="block text-sm font-medium text-gray-700 mb-2">Business Name *</label>
+                            <input type="text" name="business_name" id="business_name" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                                   placeholder="Your Business">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="whatsapp_number" class="block text-sm font-medium text-gray-700 mb-2">WhatsApp Number *</label>
+                            <input type="tel" name="whatsapp_number" id="whatsapp_number" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                                   placeholder="+919876543210">
+                            <p class="text-xs text-gray-500 mt-1">Include country code for international numbers</p>
+                        </div>
+                        
+                        <div>
+                            <label for="business_type" class="block text-sm font-medium text-gray-700 mb-2">Business Type *</label>
+                            <select name="business_type" id="business_type" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                                <option value="">Select business type</option>
+                                <option value="hotel">Hotel & Hospitality</option>
+                                <option value="restaurant">Restaurant</option>
+                                <option value="salon">Salon & Spa</option>
+                                <option value="clinic">Medical Clinic</option>
+                                <option value="fitness">Fitness & Gym</option>
+                                <option value="education">Education & Training</option>
+                                <option value="consulting">Consulting</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="preferred_time" class="block text-sm font-medium text-gray-700 mb-2">Preferred Call Time *</label>
+                        <select name="preferred_time" id="preferred_time" required
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                            <option value="">Select preferred time</option>
+                            <option value="morning">Morning (9 AM - 12 PM)</option>
+                            <option value="afternoon">Afternoon (12 PM - 5 PM)</option>
+                            <option value="evening">Evening (5 PM - 8 PM)</option>
+                            <option value="anytime">Anytime</option>
+                        </select>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button type="submit" 
+                                class="w-full bg-primary-600 text-white py-3 px-6 rounded-lg hover:bg-primary-700 transition-colors font-medium text-lg shadow-lg shadow-primary-500/30">
+                            Submit Demo Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="mt-12 text-center text-gray-600 animate-fade-in-up" style="animation-delay: 0.4s;">
+            <p class="mb-4">What to expect in your demo:</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-100">
+                    <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-center">Live Demo</h3>
+                    <p class="text-sm text-gray-600">See how Quikbok works with your specific business needs</p>
+                </div>
+                
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-100">
+                    <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-center">Q&A Session</h3>
+                    <p class="text-sm text-gray-600">Get answers to all your questions about features and pricing</p>
+                </div>
+                
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-100">
+                    <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2 text-center">Quick Setup</h3>
+                    <p class="text-sm text-gray-600">Get started with your account in minutes after the demo</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center text-sm text-gray-500">
+                <p>&copy; 2026 Quikbok. All rights reserved.</p>
+                <div class="mt-2 space-x-4">
+                    <a href="/privacy" class="hover:text-primary-600 transition-colors">Privacy Policy</a>
+                    <a href="/terms" class="hover:text-primary-600 transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
