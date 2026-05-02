@@ -3,8 +3,7 @@ import re
 import sys
 
 from dotenv import load_dotenv
-import google.genai as genai
-from google.genai import types
+import google.generativeai as genai
 
 
 # Ensure .env is loaded even when this module is used outside app.py
@@ -205,7 +204,7 @@ class BookingAgent:
                     gemini_role = "model"
                 else:
                     gemini_role = "user"
-                contents.append(types.Content(role=gemini_role, parts=[types.Part(text=text)]))
+                contents.append(genai.types.Content(role=gemini_role, parts=[genai.types.Part(text=text)]))
                 debug_contents.append({"role": gemini_role, "text": text})
 
             if debug:
@@ -219,7 +218,7 @@ class BookingAgent:
             response = self.client.models.generate_content(
                 model="gemini-2.5-flash",
                 contents=contents,
-                config=types.GenerateContentConfig(
+                config=genai.types.GenerateContentConfig(
                     systemInstruction=system_prompt,
                     temperature=0.2,
                     maxOutputTokens=512,
