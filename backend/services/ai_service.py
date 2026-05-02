@@ -177,9 +177,11 @@ class BookingAgent:
         if debug:
             print(f"[GEMINI DEBUG] GEMINI_API_KEY len={len(api_key)} suffix=...{api_key[-6:]}")
 
-        # Recreate the client if the API key changed (common during demos).
+        # Configure the global genai client if the API key changed (v0.8.3)
         if self._client is None or self._api_key != api_key:
-            self._client = genai.Client(api_key=api_key)
+            genai.configure(api_key=api_key)
+            # Use a truthy marker for the client since genai is globally configured
+            self._client = True
             self._api_key = api_key
         return self._client
 
@@ -215,15 +217,14 @@ class BookingAgent:
                 for i, item in enumerate(debug_contents, start=1):
                     print(f"  {i:02d}. {item['role']}: {_printable(item['text'])}")
 
-            response = self.client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=contents,
-                config=genai.types.GenerateContentConfig(
-                    systemInstruction=system_prompt,
+            # Use v0.8.3-compatible API: create a GenerativeModel and call generate_content
+            model = genai.GenerativeModel('gemini-2.5-flash', system_instruction=system_prompt)
+            response = model.generate_content(
+                contents,
+                generation_config=genai.types.GenerationConfig(
                     temperature=0.2,
-                    maxOutputTokens=512,
-                    responseMimeType="text/plain",
-                ),
+                    max_output_tokens=512,
+                )
             )
 
             reply = response.text or ""
