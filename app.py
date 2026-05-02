@@ -5,7 +5,7 @@ from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect
 import sys
 import os
-from config.config import Config, validate_environment
+from config.config import Config
 from backend.routes.auth import auth_bp
 from backend.routes.chat import chat_bp
 from backend.routes.dashboard import dashboard_bp
