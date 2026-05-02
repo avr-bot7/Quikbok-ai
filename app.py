@@ -1,10 +1,24 @@
+# ============================================================================
+# Standard Library Imports
+# ============================================================================
+import os
+import sys
+import secrets
+from datetime import timedelta
+from traceback import format_exc
+
+# ============================================================================
+# Third-Party Imports
+# ============================================================================
 from flask import Flask, render_template, session, request
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect
-import sys
-import os
+
+# ============================================================================
+# Local Imports
+# ============================================================================
 from config.config import Config
 from backend.routes.auth import auth_bp
 from backend.routes.chat import chat_bp
@@ -12,70 +26,79 @@ from backend.routes.dashboard import dashboard_bp
 from backend.routes.webhook import webhook_bp
 from backend.routes.payment import payment_bp
 from backend.routes.whatsapp_cloud import whatsapp_cloud_bp
-from backend.models.database import get_first_owner
+from backend.models.database import get_first_owner, create_demo_request
 
-# Validate environment variables on startup
-# (Disabled strict validation to allow optional services like Razorpay during demos)
-# validate_environment()
-
+# ============================================================================
 # Avoid Windows console UnicodeEncodeError when printing Gemini output (Hindi/emoji).
+# ============================================================================
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="backslashreplace")
     sys.stderr.reconfigure(encoding="utf-8", errors="backslashreplace")
 except Exception:
     pass
 
+# ============================================================================
+# Flask App Initialization
+# ============================================================================
 app = Flask(__name__, 
            template_folder='frontend/templates',
            static_folder='frontend/static')
 app.config.from_object(Config)
 CORS(app, resources={r"/chat*": {"origins": "*"}})
-app.secret_key = Config.SECRET_KEY
-        
+
+# ============================================================================
+# Secret Key Fallback Setup
+# ============================================================================
 # Ensure `SECRET_KEY` is available for sessions/CSRF. If it's missing, generate
 # a temporary key for demo purposes and warn (do NOT use this in production).
 secret = getattr(Config, 'SECRET_KEY', None) or os.getenv('SECRET_KEY')
 if not secret:
-    import secrets
     temp_secret = secrets.token_urlsafe(32)
     print('Warning: SECRET_KEY not set. Using temporary secret for sessions/CSRF (demo only).')
     app.secret_key = temp_secret
 else:
     app.secret_key = secret
 
-# Initialize CSRF protection
+# ============================================================================
+# CSRF Protection Initialization
+# ============================================================================
 csrf = CSRFProtect(app)
 
-# Exempt chat blueprint from CSRF protection (API endpoint)
-from flask_wtf.csrf import CSRFError
-from backend.routes.chat import chat_bp
-csrf.exempt(chat_bp)
-
-# Exempt webhook blueprint from CSRF protection (API endpoint)
-from backend.routes.webhook import webhook_bp
-csrf.exempt(webhook_bp)
-
-# Exempt payment blueprint from CSRF protection (API endpoint; called via fetch/JSON)
-from backend.routes.payment import payment_bp
-csrf.exempt(payment_bp)
-
-# Configure session timeout (24 hours)
-from datetime import timedelta
+# ============================================================================
+# Configure Session Timeout
+# ============================================================================
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
-# Initialize rate limiter
+# ============================================================================
+# Initialize Rate Limiter
+# ============================================================================
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
     default_limits=["200 per day", "50 per hour"]
 )
 
+# ============================================================================
+# Register Blueprints
+# ============================================================================
 app.register_blueprint(auth_bp)
 app.register_blueprint(chat_bp)
 app.register_blueprint(dashboard_bp)
 app.register_blueprint(webhook_bp)
 app.register_blueprint(payment_bp)
 app.register_blueprint(whatsapp_cloud_bp)
+
+# ============================================================================
+# CSRF Exemptions (after blueprint registration)
+# ============================================================================
+# Exempt chat blueprint from CSRF protection (API endpoint)
+csrf.exempt(chat_bp)
+
+# Exempt webhook blueprint from CSRF protection (API endpoint)
+csrf.exempt(webhook_bp)
+
+# Exempt payment blueprint from CSRF protection (API endpoint; called via fetch/JSON)
+csrf.exempt(payment_bp)
 
 @app.route('/')
 def index():
@@ -103,15 +126,13 @@ def demo():
             print(f"  Time: {preferred_time}")
             
             # Save to Supabase
-            from backend.models.database import create_demo_request
             create_demo_request(name, business_name, whatsapp_number, business_type, preferred_time)
             
             print("✅ Demo request saved successfully")
             return render_template('demo_thankyou.html')
         except Exception as e:
             print(f"❌ Error saving demo request: {type(e).__name__}: {str(e)}")
-            import traceback
-            print(f"Full traceback: {traceback.format_exc()}")
+            print(f"Full traceback: {format_exc()}")
             return render_template('demo.html', error="Failed to submit request. Please try again.")
     
     return render_template('demo.html')
