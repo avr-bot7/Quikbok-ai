@@ -10,8 +10,6 @@ def validate_environment():
         'SUPABASE_URL': 'Supabase database URL',
         'SUPABASE_KEY': 'Supabase database key',
         'SECRET_KEY': 'Flask secret key for session security',
-        'RAZORPAY_KEY_ID': 'Razorpay key ID for payments',
-        'RAZORPAY_KEY_SECRET': 'Razorpay key secret for payments',
         'TWILIO_ACCOUNT_SID': 'Twilio account SID for WhatsApp',
         'TWILIO_AUTH_TOKEN': 'Twilio auth token for WhatsApp',
         'TWILIO_WHATSAPP_FROM': 'Twilio WhatsApp number',

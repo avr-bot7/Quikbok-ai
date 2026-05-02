@@ -21,16 +21,12 @@ def create_payment_subscription():
         plan_name = payload.get('plan') or request.form.get('plan') or 'basic'
         print(f"Plan requested: {plan_name}")
         
-        # Check Razorpay credentials
-        razorpay_key_id = os.getenv('RAZORPAY_KEY_ID')
-        razorpay_key_secret = os.getenv('RAZORPAY_KEY_SECRET')
-        print(f"Razorpay Key ID exists: {bool(razorpay_key_id)}")
-        print(f"Razorpay Key Secret exists: {bool(razorpay_key_secret)}")
-        
-        if not razorpay_key_id or not razorpay_key_secret:
-            print("❌ PAYMENT FAILED - Missing Razorpay credentials")
-            return jsonify({'success': False, 'message': 'Payment system not configured'}), 500
-        
+        # Check Razorpay credentials (optional) and get plan details
+        razorpay_key_id = os.getenv('RAZORPAY_KEY_ID', 'fake_key_for_college_project')
+        razorpay_key_secret = os.getenv('RAZORPAY_KEY_SECRET', 'fake_secret_for_college_project')
+        print(f"Razorpay Key ID used: {bool(os.getenv('RAZORPAY_KEY_ID'))}")
+        print(f"Razorpay Key Secret used: {bool(os.getenv('RAZORPAY_KEY_SECRET'))}")
+
         # Get plan details
         if plan_name == 'basic':
             plan_details = BASIC_PLAN
@@ -41,39 +37,19 @@ def create_payment_subscription():
         else:
             plan_details = BASIC_PLAN
         
-        try:
-            # Create Razorpay order
-            import razorpay
-            client = razorpay.Client(auth=(razorpay_key_id, razorpay_key_secret))
-            
-            order_data = {
-                'amount': plan_details['amount'],
-                'currency': 'INR',
-                'receipt': f'receipt_{plan_name}_{session.get("owner_id", "unknown")}',
-                'notes': {
-                    'plan_name': plan_name,
-                    'owner_id': session.get('owner_id', 'demo')
-                }
-            }
-            
-            print(f"📝 Creating order with data: {order_data}")
-            order = client.order.create(data=order_data)
-            print(f"✅ Order created successfully: {order}")
-            
-            return jsonify({
-                'success': True,
-                'order_id': order['id'],
-                'amount': order['amount'],
-                'currency': order['currency'],
-                'key_id': razorpay_key_id,
-                'plan_name': plan_name
-            })
-            
-        except Exception as e:
-            print(f"❌ ERROR creating payment order: {type(e).__name__}: {str(e)}")
-            import traceback
-            print(f"Full traceback: {traceback.format_exc()}")
-            return jsonify({'success': False, 'message': f'Failed to create payment order: {str(e)}'}), 500
+        # --- ADD THIS MOCK RESPONSE FOR YOUR COLLEGE DEMO ---
+        # Instead of actually calling Razorpay, just return a fake order
+        return jsonify({
+            'success': True,
+            'order_id': 'order_fake_12345',
+            'amount': plan_details['amount'],
+            'currency': 'INR',
+            'key_id': razorpay_key_id,
+            'plan_name': plan_name
+        })
+        # --------------------------------------------------
+
+        # (The real Razorpay integration is intentionally skipped for the demo.)
 
 @payment_bp.route('/payment/success', methods=['POST'])
 def payment_success():
