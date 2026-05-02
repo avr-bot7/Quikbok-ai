@@ -31,6 +31,17 @@ app = Flask(__name__,
 app.config.from_object(Config)
 CORS(app, resources={r"/chat*": {"origins": "*"}})
 app.secret_key = Config.SECRET_KEY
+        
+# Ensure `SECRET_KEY` is available for sessions/CSRF. If it's missing, generate
+# a temporary key for demo purposes and warn (do NOT use this in production).
+secret = getattr(Config, 'SECRET_KEY', None) or os.getenv('SECRET_KEY')
+if not secret:
+    import secrets
+    temp_secret = secrets.token_urlsafe(32)
+    print('Warning: SECRET_KEY not set. Using temporary secret for sessions/CSRF (demo only).')
+    app.secret_key = temp_secret
+else:
+    app.secret_key = secret
 
 # Initialize CSRF protection
 csrf = CSRFProtect(app)
