@@ -15,7 +15,8 @@ from backend.routes.whatsapp_cloud import whatsapp_cloud_bp
 from backend.models.database import get_first_owner
 
 # Validate environment variables on startup
-validate_environment()
+# (Disabled strict validation to allow optional services like Razorpay during demos)
+# validate_environment()
 
 # Avoid Windows console UnicodeEncodeError when printing Gemini output (Hindi/emoji).
 try:
