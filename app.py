@@ -27,6 +27,7 @@ from backend.routes.webhook import webhook_bp
 from backend.routes.payment import payment_bp
 from backend.routes.whatsapp_cloud import whatsapp_cloud_bp
 from backend.models.database import get_first_owner, create_demo_request
+from backend.services.ai_service import BookingAgent
 
 # ============================================================================
 # Avoid Windows console UnicodeEncodeError when printing Gemini output (Hindi/emoji).
@@ -45,6 +46,10 @@ app = Flask(__name__,
            static_folder='frontend/static')
 app.config.from_object(Config)
 CORS(app, resources={r"/chat*": {"origins": "*"}})
+
+# Gemini startup diagnostics
+BookingAgent.print_gemini_key_preview()
+BookingAgent.direct_test_call("What is 2+2?")
 
 # ============================================================================
 # Secret Key Fallback Setup

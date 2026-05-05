@@ -1,9 +1,10 @@
 import os
 import re
 import sys
+import traceback
 
 from dotenv import load_dotenv
-import google.generativeai as genai
+from google import genai
 
 
 # Ensure .env is loaded even when this module is used outside app.py
@@ -177,25 +178,60 @@ class BookingAgent:
         if debug:
             print(f"[GEMINI DEBUG] GEMINI_API_KEY len={len(api_key)} suffix=...{api_key[-6:]}")
 
-        # Configure the global genai client if the API key changed (v0.8.3)
+        # Configure or refresh the Gemini client when key changes.
         if self._client is None or self._api_key != api_key:
-            genai.configure(api_key=api_key)
-            # Use a truthy marker for the client since genai is globally configured
-            self._client = True
+            self._client = genai.Client(api_key=api_key)
             self._api_key = api_key
         return self._client
+
+    @staticmethod
+    def print_gemini_key_preview():
+        api_key = os.getenv("GEMINI_API_KEY", "")
+        preview = api_key[:10] if api_key else "<missing>"
+        print(f"[GEMINI STARTUP] GEMINI_API_KEY first10={preview}")
+
+    @staticmethod
+    def direct_test_call(prompt: str = "What is 2+2?"):
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key or not api_key.strip():
+            print("[GEMINI TEST] ERROR: GEMINI_API_KEY is missing")
+            return
+
+        try:
+            client = genai.Client(api_key=api_key)
+            response = client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=prompt,
+            )
+            text = (response.text or "").strip()
+            print(f"[GEMINI TEST] PROMPT: {prompt}")
+            print(f"[GEMINI TEST] RESPONSE: {_printable(text)}")
+        except Exception as exc:
+            print(f"[GEMINI TEST] ERROR: {type(exc).__name__}: {exc}")
+            print(traceback.format_exc())
 
     def get_response(self, conversation_history, user_message, business_name, business_type):
         system_prompt = _booking_system_prompt(business_name, business_type)
         try:
+            # Ensure client is initialized before any model call.
+            client = self.client
             debug = os.getenv("GEMINI_DEBUG", "").strip().lower() in {"1", "true", "yes", "on"}
 
             # Build role-based multi-turn contents for Gemini.
             history = list(conversation_history or [])
+            if not isinstance(history, list):
+                history = []
+
             # Keep only the most recent turns to prevent runaway prompts.
             if len(history) > 20:
                 history = history[-20:]
             history.append({"role": "user", "content": user_message})
+
+            print(f"[GEMINI CALL] conversation_history length={len(history)}")
+            for i, item in enumerate(history, start=1):
+                role = item.get("role") if isinstance(item, dict) else "unknown"
+                content = item.get("content", "") if isinstance(item, dict) else str(item)
+                print(f"[GEMINI CALL] history[{i:02d}] role={role} content={_printable(content)}")
 
             contents = []
             debug_contents = []
@@ -206,7 +242,7 @@ class BookingAgent:
                     gemini_role = "model"
                 else:
                     gemini_role = "user"
-                contents.append(genai.types.Content(role=gemini_role, parts=[genai.types.Part(text=text)]))
+                contents.append(genai.types.Content(role=gemini_role, parts=[genai.types.Part.from_text(text=text)]))
                 debug_contents.append({"role": gemini_role, "text": text})
 
             if debug:
@@ -217,14 +253,14 @@ class BookingAgent:
                 for i, item in enumerate(debug_contents, start=1):
                     print(f"  {i:02d}. {item['role']}: {_printable(item['text'])}")
 
-            # Use v0.8.3-compatible API: create a GenerativeModel and call generate_content
-            model = genai.GenerativeModel('gemini-2.5-flash', system_instruction=system_prompt)
-            response = model.generate_content(
-                contents,
-                generation_config=genai.types.GenerationConfig(
+            response = client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=contents,
+                config=genai.types.GenerateContentConfig(
+                    system_instruction=system_prompt,
                     temperature=0.2,
                     max_output_tokens=512,
-                )
+                ),
             )
 
             reply = response.text or ""
@@ -251,7 +287,8 @@ class BookingAgent:
             return reply, history
             
         except Exception as e:
-            print(f"Error in get_response: {e}")
+            print(f"Error in get_response: {type(e).__name__}: {e}")
+            print(traceback.format_exc())
             # Return placeholder message if API fails
             placeholder = "Namaste! Main aapke booking ke liye yahan hoon. Aap konsa service book karna chahte hain?"
             history = list(conversation_history or [])

@@ -136,15 +136,26 @@ def chat():
     print(f"Request data: {request.get_json()}")
     
     try:
-        data = request.get_json()
+        data = request.get_json() or {}
         owner_id = normalize_owner_id(data.get('owner_id'))
         message = data.get('message')
         conversation_history = data.get('conversation_history', [])
+        if not isinstance(conversation_history, list):
+            print("conversation_history payload is not a list; defaulting to empty list")
+            conversation_history = []
         
         print(f"📝 Chat Request:")
         print(f"  Owner ID: {owner_id}")
         print(f"  Message: {message}")
         print(f"  History length: {len(conversation_history)}")
+        for idx, item in enumerate(conversation_history, start=1):
+            if isinstance(item, dict):
+                role = item.get("role")
+                content = item.get("content")
+            else:
+                role = "unknown"
+                content = str(item)
+            print(f"  History[{idx:02d}] role={role} content={content}")
 
         # Fetch owner details from DB for secure prompt construction
         business_name = 'Hotel Demo Rishikesh'
@@ -175,7 +186,8 @@ def chat():
                 print(f"AI reply received (escaped): {ai_reply.encode('ascii', errors='backslashreplace').decode('ascii')}")
         except Exception as ai_error:
             # Handle all Gemini errors (quota, auth, rate limit, etc.) with placeholder response
-            print(f"Gemini API Error: {ai_error}")
+            print(f"Gemini API Error: {type(ai_error).__name__}: {ai_error}")
+            print(traceback.format_exc())
             placeholder_reply = "Hi! I am the Quikbok booking assistant. I can help you book a service. What would you like to book?"
             print(f"Returning placeholder: {placeholder_reply}")
             conversation_history.append({"role": "assistant", "content": placeholder_reply})
