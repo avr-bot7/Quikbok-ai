@@ -6,6 +6,7 @@ from backend.services.ai_service import BookingAgent
 from backend.models.database import get_owner_by_id, create_booking, normalize_owner_id, owner_exists
 import traceback
 import re
+import os
 
 chat_bp = Blueprint('chat', __name__)
 agent = BookingAgent()
@@ -171,15 +172,19 @@ def chat():
         if can_save and not owner_exists(owner_id):
             can_save = False
 
-        # Check if Gemini key is available
-        from config.config import Config
-        if not Config.GEMINI_API_KEY or Config.GEMINI_API_KEY.strip() == '':
-            # Return placeholder response when Gemini key is missing
+        # Check if OpenRouter key is available
+        openrouter_key = os.getenv('OPENROUTER_API_KEY')
+        if not openrouter_key or openrouter_key.strip() == '':
+            # Return placeholder response when OpenRouter key is missing
             placeholder_reply = "Hi! I am the Quikbok booking assistant. I can help you book a service. What would you like to book?"
+            print(f"[ERROR] OPENROUTER_API_KEY not set!")
             return jsonify({"reply": placeholder_reply})
         
+        # Detect if this is demo mode
+        is_demo = (owner_id is None or owner_id == 'demo')
+        
         try:
-            ai_reply, updated_history = agent.get_response(conversation_history, message, business_name, business_type)
+            ai_reply, updated_history = agent.get_response(conversation_history, message, business_name, business_type, is_demo=is_demo)
             try:
                 print(f"AI reply received: {ai_reply}")
             except Exception:
