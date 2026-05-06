@@ -47,10 +47,6 @@ app = Flask(__name__,
 app.config.from_object(Config)
 CORS(app, resources={r"/chat*": {"origins": "*"}})
 
-# Gemini startup diagnostics
-BookingAgent.print_gemini_key_preview()
-BookingAgent.direct_test_call("What is 2+2?")
-
 # ============================================================================
 # Secret Key Fallback Setup
 # ============================================================================
