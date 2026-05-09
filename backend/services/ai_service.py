@@ -7,6 +7,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+_OUT_OF_SCOPE_INSTRUCTION = (
+    "IMPORTANT — out-of-scope requests:\n"
+    "If a user asks you to do ANYTHING outside of booking — such as writing code, accessing software "
+    "(Unity 3D, Blender, VS Code, etc.), creating 3D scenes, fixing games, debugging programs, "
+    "generating images, browsing the internet, or any other task unrelated to booking — politely "
+    "explain that you are only a booking assistant and cannot help with that. "
+    "Do NOT pretend to have those capabilities or claim to be waiting for permission. "
+    "Redirect them warmly to what you can do (making a booking)."
+)
+
+
 class BookingAgent:
     def __init__(self):
         api_key = os.getenv("OPENROUTER_API_KEY")
@@ -25,15 +36,24 @@ class BookingAgent:
         conversation_history.append({"role": "user", "content": user_message})
         
         if is_demo:
-            system_prompt = """You are Quikbok AI, a booking assistant for businesses in Uttarakhand India. 
-When a user asks about your service, explain: 'Hi! I am Quikbok AI booking assistant. Quikbok helps hotels, restaurants and tour operators in Uttarakhand get their own AI booking agent. Want to see a demo or sign up? Visit our pricing page or click Get Started above.'
-Be warm and helpful in Hinglish."""
+            system_prompt = (
+                f"You are Quikbok AI, a booking assistant for businesses in Uttarakhand India.\n"
+                f"Your ONLY purpose is to help customers make bookings for hotels, restaurants, and tour operators.\n"
+                f"When a user asks about your service, explain: 'Hi! I am Quikbok AI booking assistant. "
+                f"Quikbok helps hotels, restaurants and tour operators in Uttarakhand get their own AI booking agent. "
+                f"Want to see a demo or sign up? Visit our pricing page or click Get Started above.'\n"
+                f"Be warm and helpful in Hinglish.\n\n"
+                f"{_OUT_OF_SCOPE_INSTRUCTION}"
+            )
         else:
-            system_prompt = f"""You are a friendly AI booking assistant for {business_name}, a {business_type} in Uttarakhand India. 
-Help customers book appointments by collecting: full name, date, service, phone number.
-Reply in Hinglish (mix of Hindi and English). Be warm and conversational.
-Once you have all 4 details, end your message with exactly:
-BOOKING_COMPLETE|name|date|service|phone"""
+            system_prompt = (
+                f"You are a friendly AI booking assistant for {business_name}, a {business_type} in Uttarakhand India.\n"
+                f"Your ONLY purpose is to help customers book services by collecting: full name, date, service, phone number.\n"
+                f"Reply in Hinglish (mix of Hindi and English). Be warm and conversational.\n"
+                f"Once you have all 4 details, end your message with exactly:\n"
+                f"BOOKING_COMPLETE|name|date|service|phone\n\n"
+                f"{_OUT_OF_SCOPE_INSTRUCTION}"
+            )
 
         messages = [{"role": "system", "content": system_prompt}] + conversation_history
 
