@@ -1,255 +1,145 @@
-# Quikbok - AI Booking Agent
+# Quikbok — AI Booking Agent
 
-Quikbok is an AI-powered booking platform that enables businesses to automate customer bookings through WhatsApp and web interfaces.
+> 24/7 AI-powered booking assistant for small hotels, restaurants, and tour operators in Uttarakhand, India.
+
+[![Live Demo](https://img.shields.io/badge/Live-Demo-6366F1?style=for-the-badge)](https://quikbok-ai.onrender.com)
+[![Python](https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-2.3-000000?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com)
+
+---
+
+## What is Quikbok?
+
+Small businesses in Rishikesh, Haridwar, and Dehradun miss booking requests every night because they can't reply to WhatsApp messages 24/7. Quikbok solves this with an AI agent that:
+
+- Replies instantly to customers in **Hindi and English (Hinglish)**
+- Collects name, date, service, and phone number through natural conversation
+- Saves bookings to a dashboard automatically
+- Sends the owner a **WhatsApp notification** for every new booking
+
+---
 
 ## Features
 
-- 🤖 **AI-Powered Chat**: Intelligent conversation-based booking system
-- 💬 **WhatsApp Integration**: Automated booking via WhatsApp
-- 📊 **Dashboard**: Complete booking management interface
-- 💳 **Payment Processing**: Integrated payment gateway (Razorpay)
-- 📱 **Mobile Responsive**: Works on all devices
-- 🔔 **Real-time Notifications**: Instant booking alerts
+- 🤖 **AI Chat Widget** — embed on any website with 1 line of code
+- 🔗 **Booking Link** — shareable link for businesses without a website
+- 📱 **WhatsApp Bot** — AI replies directly on the business WhatsApp number
+- 📊 **Owner Dashboard** — view, confirm, and reject bookings
+- 💳 **Razorpay Billing** — subscription-based payments with UPI support
+- 🔒 **Secure** — password hashing, CSRF protection, rate limiting
+
+---
 
 ## Tech Stack
 
-- **Backend**: Flask (Python)
-- **Database**: Supabase (PostgreSQL)
-- **Frontend**: HTML, Tailwind CSS, JavaScript
-- **Payments**: Razorpay
-- **Messaging**: Twilio WhatsApp
-- **AI**: OpenAI GPT
+| Layer | Technology |
+|---|---|
+| Backend | Python 3.10 + Flask |
+| AI | OpenRouter API (Google Gemini) |
+| Database | Supabase (PostgreSQL) |
+| Messaging | Twilio WhatsApp API |
+| Payments | Razorpay |
+| Frontend | HTML + Tailwind CSS + JavaScript |
+| Deployment | Render |
 
-## Installation
+---
 
-1. Clone the repository
+## Quick Start
+
 ```bash
-git clone <repository-url>
-cd quikbok
-```
+# Clone the repo
+git clone https://github.com/avr-bot7/Quikbok-ai.git
+cd Quikbok-ai
 
-2. Create virtual environment
-```bash
+# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+venv\Scripts\activate        # Windows
+source venv/bin/activate     # Mac/Linux
 
-3. Install dependencies
-```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-4. Set up environment variables
-```bash
+# Set up environment variables
 cp .env.example .env
-# Edit .env with your credentials
-```
+# Fill in your API keys in .env
 
-5. Run the application
-```bash
+# Run the app
 python app.py
 ```
 
+Open `http://localhost:5000` in your browser.
+
+---
+
 ## Environment Variables
 
-Create a `.env` file with the following variables:
-
 ```env
-# Database
-SUPABASE_URL=your_supabase_url
-SUPABASE_KEY=your_supabase_key
-
-# Google Gemini
-GEMINI_API_KEY=your_gemini_api_key
-
-# Payments
-RAZORPAY_KEY_ID=your_razorpay_key_id
-RAZORPAY_KEY_SECRET=your_razorpay_key_secret
-
-# WhatsApp
-TWILIO_ACCOUNT_SID=your_twilio_account_sid
-TWILIO_AUTH_TOKEN=your_twilio_auth_token
+OPENROUTER_API_KEY=your_openrouter_key
+SUPABASE_URL=https://yourproject.supabase.co
+SUPABASE_KEY=your_supabase_anon_key
+RAZORPAY_KEY_ID=rzp_test_xxxxx
+RAZORPAY_KEY_SECRET=your_secret
+TWILIO_ACCOUNT_SID=ACxxxxx
+TWILIO_AUTH_TOKEN=your_token
 TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
-
-# Flask
-SECRET_KEY=your_secret_key
+SECRET_KEY=your_flask_secret
 BASE_URL=http://localhost:5000
 ```
 
+See `.env.example` for the full list.
+
+---
+
+## Project Structure
+
+```
+quikbok/
+├── app.py                  # Entry point
+├── backend/
+│   ├── routes/             # URL handlers (auth, chat, dashboard, payments)
+│   ├── models/             # Database operations (Supabase + SQLite fallback)
+│   └── services/           # External APIs (AI, WhatsApp, Payments)
+├── frontend/
+│   ├── templates/          # HTML pages (12 pages total)
+│   └── static/             # CSS, JavaScript, chat widget
+└── config/                 # App configuration
+```
+
+---
+
+## Pages
+
+| Page | Description |
+|---|---|
+| `/` | Landing page with live chat demo |
+| `/signup` `/login` | Owner authentication |
+| `/dashboard` | Bookings overview and management |
+| `/dashboard/settings` | WhatsApp setup and embed code |
+| `/book/<owner_id>` | Shareable booking link |
+| `/demo` | Book a demo call |
+| `/pricing` | Plans and billing |
+
+---
+
 ## Database Schema
 
-### Owners Table
-- `id` (UUID, Primary Key)
-- `email` (Text, Unique)
-- `name` (Text)
-- `business_name` (Text)
-- `business_type` (Text)
-- `plan` (Text)
-- `is_active` (Boolean)
-- `password_hash` (Text)
-- `ai_instructions` (Text)
-- `whatsapp_number` (Text)
-- `created_at` (Timestamp)
+**Owners** — business accounts (id, email, password_hash, business_name, business_type, plan, whatsapp_number)
 
-### Bookings Table
-- `id` (UUID, Primary Key)
-- `owner_id` (UUID, Foreign Key)
-- `customer_name` (Text)
-- `customer_phone` (Text)
-- `service` (Text)
-- `date` (Text)
-- `status` (Text)
-- `created_at` (Timestamp)
+**Bookings** — booking records (id, owner_id → FK, customer_name, service, date, phone, status)
 
-### Demo Requests Table
-The **demo_requests table** stores demo booking requests:
-- `id` (UUID, Primary Key)
-- `name` (Text) - Contact person name
-- `business_name` (Text) - Business name
-- `whatsapp_number` (Text) - Contact WhatsApp number
-- `business_type` (Text) - Type of business
-- `preferred_time` (Text) - Preferred call time
-- `created_at` (Timestamp) - Request submission time
+**Demo Requests** — lead capture (id, name, business_name, whatsapp_number, preferred_time)
 
-## Setup Instructions
+---
 
-### 1. Database Setup
+## Built By
 
-Create the following tables in your Supabase database:
+**Atharv Rajput** — B.Tech CSE, Gurukul Kangri University, Haridwar
+- Backend development, AI integration, database design, deployment
 
-```sql
--- Owners table
-CREATE TABLE Owners (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    email TEXT UNIQUE NOT NULL,
-    name TEXT,
-    business_name TEXT,
-    business_type TEXT,
-    plan TEXT DEFAULT 'free',
-    is_active BOOLEAN DEFAULT false,
-    password_hash TEXT NOT NULL,
-    ai_instructions TEXT,
-    whatsapp_number TEXT,
-    created_at TIMESTAMP DEFAULT NOW()
-);
+**Teammate** — Research, testing, documentation, presentation
 
--- Bookings table
-CREATE TABLE bookings (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    owner_id UUID REFERENCES Owners(id),
-    customer_name TEXT NOT NULL,
-    customer_phone TEXT NOT NULL,
-    service TEXT NOT NULL,
-    date TEXT NOT NULL,
-    status TEXT DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT NOW()
-);
-
--- Demo requests table
-CREATE TABLE demo_requests (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    name TEXT NOT NULL,
-    business_name TEXT NOT NULL,
-    whatsapp_number TEXT NOT NULL,
-    business_type TEXT NOT NULL,
-    preferred_time TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW()
-);
-```
-
-### 2. WhatsApp Integration
-
-1. Create a Twilio account
-2. Activate WhatsApp sandbox
-3. Add your Twilio credentials to `.env`
-4. Configure webhook URL in Twilio: `https://yourdomain.com/webhook/twilio`
-
-### 3. Payment Integration
-
-1. Create a Razorpay account
-2. Add your Razorpay keys to `.env`
-3. Configure webhook URL in Razorpay: `https://yourdomain.com/webhook/razorpay`
-
-## API Endpoints
-
-### Authentication
-- `POST /login` - User login
-- `POST /signup` - User registration
-- `POST /logout` - User logout
-
-### Dashboard
-- `GET /dashboard` - Main dashboard
-- `GET /dashboard/settings` - Settings page
-- `POST /dashboard/settings` - Update settings
-- `POST /dashboard/booking/update-status` - Update booking status
-
-### Chat & Booking
-- `POST /chat` - AI chat endpoint
-- `GET /widget/<owner_id>` - Chat widget
-- `GET /book/<owner_id>` - Standalone booking page
-- `POST /book/complete` - Complete booking
-
-### Webhooks
-- `POST /webhook/twilio` - Twilio WhatsApp webhook
-- `POST /webhook/razorpay` - Razorpay payment webhook
-
-### Demo
-- `GET /demo` - Demo request form
-- `POST /demo` - Submit demo request
-
-### Legal
-- `GET /privacy` - Privacy policy
-- `GET /terms` - Terms of service
-
-## Usage
-
-### For Business Owners
-
-1. **Sign up** for an account
-2. **Configure** your business details and AI instructions
-3. **Set up** WhatsApp integration (optional)
-4. **Share** your booking link with customers
-5. **Manage** bookings through the dashboard
-
-### For Customers
-
-1. **Visit** the business's booking link
-2. **Chat** with the AI assistant
-3. **Provide** booking details
-4. **Confirm** and pay (if required)
-5. **Receive** confirmation via WhatsApp
-
-## Development
-
-### Running Tests
-```bash
-python test_booking.py
-python test_twilio_webhook.py
-```
-
-### Adding New Features
-1. Create feature branch
-2. Implement changes
-3. Add tests
-4. Update documentation
-5. Submit pull request
-
-## Security
-
-- CSRF protection enabled
-- Password hashing with bcrypt
-- Input validation and sanitization
-- Secure session management
-- HTTPS enforcement in production
-
-## Legal & Compliance
-
-- **Privacy Policy**: Available at `/privacy`
-- **Terms of Service**: Available at `/terms`
-- **Indian IT Act Compliance**: Data protection measures implemented
-- **GDPR Considerations**: User data rights and deletion procedures
-
+---
 
 ## License
 
-© 2026 Quikbok Inc. All rights reserved.
+© 2026 Quikbok. Built as a B.Tech college project.
