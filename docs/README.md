@@ -249,11 +249,6 @@ python test_twilio_webhook.py
 - **Indian IT Act Compliance**: Data protection measures implemented
 - **GDPR Considerations**: User data rights and deletion procedures
 
-## Support
-
-- Email: support@quikbok.com
-- Phone: +91 98765 43210
-- Address: 123 Business Park, Bangalore, Karnataka 560001, India
 
 ## License
 
